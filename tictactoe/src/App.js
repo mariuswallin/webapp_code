@@ -86,7 +86,7 @@ const App = () => {
     boardStatus[index] = player
     // Oppdaterer statuen til board via setBoard (oppdaterer staten)
     setBoard(boardStatus)
-    // Oppdaterer historien. Tar gammel state med ...prev og legger til player og indexen som spiller klikket på
+    // Oppdaterer historien. Tar gammel state med ...prev og legger til player og indexen som spiller klikket på. Vi lager en 'ny' oppdatert array med info om hvem og hva som ble trykket på
     setHistory((prev) => [...prev, { player, value: index }])
     // Oppdaterer hvem som er neste spiller
     setPlayer(nextPlayer)

@@ -1,19 +1,19 @@
 /**
  *
- * @param {boolean} started - Trigges av klikk på "start game"
- * @param {function} started - Trigger funksjonen initGame i App.js som setter isStarted til true
- * @param {array} started - Gir oss tilgang til state-variabelen player i App.js. Brukes til å oppdatere verdien i input slik at feltet blir controlled
- * @param {function} addPlayer - Trigges av onChange i input. Trigger addPlayer i App.js som oppdaterer players state
+ * @param {boolean} started - Prop fra App.js. Oppdaters ved klikk på "start game" i denne komponenten
+ * @param {function} initGame - Prop fra App.js. Trigger funksjonen initGame i App.js som setter isStarted til true
+ * @param {array} players - Prop fra App.js. Gir oss tilgang til state-variabelen players i App.js. Brukes til å oppdatere verdien i input slik at feltet blir controlled
+ * @param {function} addPlayer - Prop fra App.js. Trigges av onChange i input her i komponenten. Trigger addPlayer i App.js som oppdaterer players
  * @returns PlayerForm
  */
 const PlayerForm = ({ started, initGame, players, addPlayer }) => {
-  // brukes til å sjekke at det er fylt inn data i begge inputs
+  // brukes til å sjekke at det er fylt inn data i begge inputs (knappen er ikke aktiv før det)
   const isDisabled = () => !players.playerOne || !players.playerTwo
 
   return (
     <>
-      {/* Skjuler skjema når applikasjonen har startet */}
-      {/* onSubmit trigges når vi klikker på 'start game' */}
+      {/* Skjuler skjema når vi har trykket på 'Start game' - applikasjonen har startet */}
+      {/* onSubmit (prop fra App.js) trigges når vi klikker på 'start game' */}
       {!started ? (
         <form onSubmit={initGame}>
           <label htmlFor="playerOne">Add player one</label>
@@ -25,7 +25,7 @@ const PlayerForm = ({ started, initGame, players, addPlayer }) => {
             onChange={addPlayer}
           />
           <label htmlFor="playerTwo">Add player two</label>
-          {/* onChange trigges når vi skriver i inputen */}
+          {/* onChange trigges når vi skriver i inputen. Trigger addPlayer som kommer som prop fra App.js */}
           {/* value peker til 'players' i App.js som er et objekt vi får som props */}
           <input
             name="playerTwo"
