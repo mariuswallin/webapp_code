@@ -20,24 +20,31 @@ code {
 
 #board {
   display: grid;
+  // Lager en grid bestående av 3 kolonner. Auto bredde (tar den bredden den trenger)
   grid-template-columns: repeat(3, auto);
+  // Gir null space mellom elementene
   gap: 0;
+  // Gir de en høyde på 1fr
   grid-template-rows: 1fr;
   list-style: none;
+  // Gir en maks bredde på 900px og sentrerer den
   max-width: 900px;
   margin: 5rem auto 0;
 }
 
+// sier at en "boks" skal ha full bredde og minimum være 200px høy og 300px bred
 .square {
   width: 100%;
   height: 100%;
   min-height: 200px;
   min-width: 300px;
+  // styler knappen (som basically er selve ruten)
     button {
       border: 1px solid #fff;
       background-color: #77dfb7;
       width: inherit;
       height: inherit;
+      // klasse som blir brukt dynamisk - vil si at vi legger til denne klassen på en React komponent når spilleren vinner
       &.winning {
         background-color: rgb(68, 213, 193);
       }
