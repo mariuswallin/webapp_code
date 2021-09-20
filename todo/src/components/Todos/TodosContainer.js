@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import TodoList from './TodoList.jsx'
-import Title from '../Title.jsx'
-import Modal from '../Modal.jsx'
-import Button from './TodoButton.jsx'
-import CompletedList from './CompletedList.jsx'
+import TodoList from './TodoList.js'
+import Title from '../Title.js'
+import Modal from '../Modal.js'
+import Button from './TodoButton.js'
+import CompletedList from './CompletedList.js'
 
 const TodosContainer = () => {
   const [modal, setModal] = useState(false)

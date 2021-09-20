@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Button from './TodoButton';
+import React, { useState } from 'react'
+import Button from './TodoButton'
 
 // TODO: Create CompletedList and CompletedItem components (they look like TodoList and TodoItem)
 // TODO: Import Modal, TodoList, CompletedList, Title
@@ -13,18 +13,18 @@ const TodosContainer = () => {
   const addTodo = () => {
     // TODO: Add todo to todoslist (update state)
     // TODO: Close modal (update state)
-  };
+  }
 
   const removeTodo = (id) => {
     // TODO: Filter out todo with id
     // TODO: Update todos with new list (update state)
-  };
+  }
 
   const completeTodo = (id) => {
     // TODO: Find todoItem
     // TODO: RemoveTodoItem from todos (update state)
     // TODO: Update completedlist with todoItem (update state)
-  };
+  }
 
   // TODO: Use <Modal /> with necessary props to handle addTodo, formdata and modal visbility
   // TODO: Finish clickhandler on Button to be able to toggle Modal
@@ -44,7 +44,7 @@ const TodosContainer = () => {
       <p>Ingen todos || Title and TodoList</p>
       <p>Ingen completed || CompletedList</p>
     </div>
-  );
-};
+  )
+}
 
-export default TodosContainer;
+export default TodosContainer

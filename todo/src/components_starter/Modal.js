@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 // Modal delegates formhandling to its parent
 // TODO: Add necessary props to be able to handle addTodo, setFormdata, formData, setModal
@@ -6,16 +6,16 @@ const Modal = () => {
   const handleSubmit = (event) => {
     // TODO: Prevent default form handeling
     // TODO: Add todo
-  };
+  }
 
   // Function for handling more than one inputfield
   const updateValue = (event) => {
-    const inputValue = { [event.target.name]: event.target.value };
+    const inputValue = { [event.target.name]: event.target.value }
     setFormData((prev) => ({
       ...prev,
       ...inputValue,
-    }));
-  };
+    }))
+  }
 
   // TODO: Update console.log with correct function
   // TODO: Add onChange method to input
@@ -41,7 +41,7 @@ const Modal = () => {
         </form>
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

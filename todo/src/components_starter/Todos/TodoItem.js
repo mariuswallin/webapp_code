@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 // TODO: Add todo prop to show todo content from parent (TodoList)
 // TODO: Add completedTodo prop handler to update state on parent
@@ -13,10 +13,14 @@ const TodoItem = () => (
       <p>CreatedDate</p>
     </header>
     <section>
-      <button id="complete">Complete</button>
-      <button id="remove">Remove</button>
+      <button type="button" id="complete">
+        Complete
+      </button>
+      <button type="button" id="remove">
+        Remove
+      </button>
     </section>
   </article>
-);
+)
 
-export default TodoItem;
+export default TodoItem
