@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+html,
+body,
+div,
+main,
+section,
+ul,
+li,
+h1,
+h2,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.board {
+  display: grid;
+  gap: 5px;
+}
+
+.board-item {
+  display: flex;
+  border: 1px solid #333;
+  padding: 1rem;
+  align-content: center;
+  justify-content: center;
+  background: none;
+}
+
+.board-item.checked {
+  border: 3px solid rgb(0, 0, 0);
+}
+
+.board-item.winning {
+  background-color: rgb(99, 230, 99);
+}
+
+.board-item:disabled {
+  color: #333;
+}
+
+.App {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.step1 label {
+  display: block;
+}
+
+.stepBtn {
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+.numbersBtn {
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  background-color: #333;
+  color: white;
+}
+
+.numbersBtn:disabled {
+  display: none;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+.saved {
+  border: 1px solid #333;
+  padding: 0.2rem 0.5rem;
+  margin: 1rem 0;
+}

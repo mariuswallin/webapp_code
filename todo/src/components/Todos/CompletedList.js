@@ -1,7 +1,7 @@
 import React from 'react'
 import CompletedItem from './CompletedItem'
 
-const CompletedList = ({ completedTodos }) => (
+const CompletedList = ({ todos }) => (
   <section className="completed-wrapper">
     <section>
       <h2>Completed todos</h2>
@@ -12,11 +12,9 @@ const CompletedList = ({ completedTodos }) => (
       <p>Completed</p>
     </header>
     <ul id="completed">
-      {completedTodos &&
-        completedTodos.length > 0 &&
-        completedTodos.map((completed, idx) => (
-          <CompletedItem key={idx} completed={completed} />
-        ))}
+      {todos &&
+        todos.length > 0 &&
+        todos.map((todo, idx) => <CompletedItem key={idx} todo={todo} />)}
     </ul>
   </section>
 )

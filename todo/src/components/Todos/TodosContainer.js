@@ -12,7 +12,7 @@ const TodosContainer = () => {
     description: '',
   })
   const [todos, setTodos] = useState([])
-  const [completed, setCompleted] = useState([])
+  const [completedTodos, setCompletedTodos] = useState([])
 
   const addTodo = () => {
     setTodos((prev) => [
@@ -30,7 +30,7 @@ const TodosContainer = () => {
   const completeTodo = (id) => {
     const todoItem = todos.find((todo) => todo.id === id)
     removeTodo(id)
-    setCompleted((prev) => [{ date: new Date(), ...todoItem }, ...prev])
+    setCompletedTodos((prev) => [{ date: new Date(), ...todoItem }, ...prev])
   }
 
   return (
@@ -57,10 +57,10 @@ const TodosContainer = () => {
           />
         </>
       )}
-      {completed && completed.length < 1 ? (
+      {completedTodos && completedTodos.length < 1 ? (
         <p>Ingen completed todos</p>
       ) : (
-        <CompletedList completedTodos={completed} />
+        <CompletedList todos={completedTodos} />
       )}
     </div>
   )
