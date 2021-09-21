@@ -1,6 +1,13 @@
 import { useState } from 'react'
+// Importerer Input for å kunne bruke komponenten her
 import Input from './Input'
 
+/**
+ *
+ * @param {array} inputs - Array med objekter som har info vi trenger til å lage Input komponenter
+ * @param {function} onSubmit - Funksjon som trigges i App.js når vi trykker på submit
+ * @returns Form
+ */
 const Form = ({ inputs, onSubmit }) => {
   const [form, setForm] = useState({})
 
@@ -10,17 +17,19 @@ const Form = ({ inputs, onSubmit }) => {
     const { value } = event.currentTarget
     console.log(name)
     console.log(value)
-    // Brukes til å "beholde" gammel state og oppdatere den inputen vi skriver i
-    // [name] ref til name="name" eller name="age" på inputfeltene
+
+    // [name] ref til name="name" eller name="age" på inputfeltet
     // value er selve verdien
     // ex {name: 'Et navn', age: 3215}
+    // (prev) => ({...}) brukes til å "beholde" gammel state og oppdatere verdien til inputen vi skriver i (den inputen som har name='name' som matcher nøkkelen i form staten)
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
   return (
     <>
-      {JSON.stringify(form)}
       <form onSubmit={onSubmit}>
+        {/* Brukes bare til debugging, se hva som er i form state */}
+        {JSON.stringify(form)}
         {/* Lager form elementer basert på prop inputs som kommer fra App.js */}
         {inputs?.length > 0
           ? inputs.map((input) => (

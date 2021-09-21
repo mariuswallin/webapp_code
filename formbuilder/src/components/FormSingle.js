@@ -1,11 +1,17 @@
 import { useState } from 'react'
+// Importerer Input for å kunne bruke komponenten her
 import Input from './Input'
 
+/**
+
+ * @param {function} onSubmit - Funksjon som trigges i App.js når vi trykker på submit
+ * @returns Form
+ */
 const FormSingle = ({ onSubmit }) => {
-  // Lagrer endringene i input name="name" via useState
-  const [name, setName] = useState('')
   // Lagrer endringene i input name="age" via useState
   const [age, setAge] = useState('')
+  // Lagrer endringene i input name="name" via useState
+  const [name, setName] = useState('')
 
   // Funksjonen som trigges når vi skriver i input name="name" inne i Input komponenten
   const handleNameChange = (event) => {
@@ -23,10 +29,10 @@ const FormSingle = ({ onSubmit }) => {
 
   return (
     <>
-      Name: {JSON.stringify(name)}
-      Age: {JSON.stringify(age)}
       {/* onSubmit trigges når vi trykker på 'send' knappen */}
       <form onSubmit={onSubmit}>
+        Name: {JSON.stringify(name)}
+        Age: {JSON.stringify(age)}
         <Input
           name="name"
           id="name"
@@ -45,7 +51,6 @@ const FormSingle = ({ onSubmit }) => {
           onChange={handleAgeChange}
           value={age}
         />
-
         <button type="submit">Send</button>
       </form>
     </>
