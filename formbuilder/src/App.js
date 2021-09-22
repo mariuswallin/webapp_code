@@ -35,7 +35,7 @@ const App = () => {
       <Form inputs={formInputs} onSubmit={onSubmit} />
       {/* Håndterer state for en og en verdi */}
       {/* Sender en prop onSubmit */}
-      {/* <FormSingle onSubmit={onSubmit} /> */}
+      <FormSingle onSubmit={onSubmit} />
     </div>
   )
 }

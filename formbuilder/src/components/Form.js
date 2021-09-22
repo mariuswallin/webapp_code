@@ -9,7 +9,7 @@ import Input from './Input'
  * @returns Form
  */
 const Form = ({ inputs, onSubmit }) => {
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({ age: '', name: '' })
 
   const handleChange = (event) => {
     console.log('change')
@@ -22,7 +22,7 @@ const Form = ({ inputs, onSubmit }) => {
     // value er selve verdien
     // ex {name: 'Et navn', age: 3215}
     // (prev) => ({...}) brukes til å "beholde" gammel state og oppdatere verdien til inputen vi skriver i (den inputen som har name='name' som matcher nøkkelen i form staten)
-    setForm((prev) => ({ ...prev, [name]: value }))
+    setForm((prevState) => ({ ...prevState, [name]: value }))
   }
 
   return (

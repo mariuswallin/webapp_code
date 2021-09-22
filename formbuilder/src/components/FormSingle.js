@@ -45,7 +45,7 @@ const FormSingle = ({ onSubmit }) => {
         <Input
           name="age"
           id="age"
-          type="text"
+          type="number"
           label="Age"
           // onChange er prop som sendes til Input komponente. handleAgeChange er funksjonen som trigges når vi skriver i inputen
           onChange={handleAgeChange}
