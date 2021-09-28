@@ -1,0 +1,35 @@
+@import 'reset.scss';
+
+html {
+  font-size: 200%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.layout {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid pink;
+}
+
+.pokemons {
+  padding: 1rem;
+}
+
+.pokemon {
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
