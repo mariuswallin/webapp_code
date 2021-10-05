@@ -1,7 +1,7 @@
 @import 'reset.scss';
 
 html {
-  font-size: 62.5%;
+  font-size: 250%;
 }
 
 body {
@@ -16,4 +16,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  margin: 0 auto;
 }
