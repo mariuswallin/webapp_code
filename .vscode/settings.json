@@ -23,5 +23,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "WillLuke.nextjs.hasPrompted": true,
-  "eslint.workingDirectories": ["./api_demo"]
+  "eslint.workingDirectories": ["./next_demo"]
 }
