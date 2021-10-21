@@ -4,9 +4,6 @@ export default function handler(req, res) {
   const { method, body } = req
 
   switch (method?.toLowerCase()) {
-    case 'post':
-      res.status(201).json()
-      break
     case 'get':
       res.status(200).json()
       break

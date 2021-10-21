@@ -10,12 +10,6 @@ export default function handler(req, res) {
     case 'get':
       res.status(200).json()
       break
-    case 'delete':
-      res.status(204).end()
-      break
-    case 'put':
-      res.status(200).json()
-      break
     default:
       res.status(405).end()
   }
