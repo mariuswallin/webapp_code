@@ -1,14 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-export default function handler(req, res) {
-  const { method, body } = req
+import * as feedsController from '@/features/feeds/feeds.controller'
+
+export default async function handler(req, res) {
+  const { method } = req
 
   switch (method?.toLowerCase()) {
     case 'post':
-      res.status(201).json()
+      await feedsController.createFeed(req, res)
       break
     case 'get':
-      res.status(200).json()
+      await feedsController.listFeeds(req, res)
       break
     default:
       res.status(405).end()

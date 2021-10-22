@@ -94,7 +94,8 @@
         ["@/components", "./components"],
         ["@/pages", "./pages"],
         ["@/lib", "./lib"],
-        ["@/hooks", "./hooks"]
+        ["@/hooks", "./hooks"],
+        ["@/features", "./features"]
       ]
     }
   }

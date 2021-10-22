@@ -84,8 +84,6 @@ const createFeeds = async () => {
     })
   })
 
-  console.log(feedPromises)
-
   await Promise.all(feedPromises)
 }
 
