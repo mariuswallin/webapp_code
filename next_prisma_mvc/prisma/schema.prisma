@@ -23,7 +23,7 @@ model Feed {
 
 model User {
   id           String         @id @default(cuid())
-  auth0        String         @unique
+  email        String         @unique
   nickname     String?
   // en til mange => en bruker kan ha mange feeds
   feeds        Feed[]

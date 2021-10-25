@@ -13,7 +13,7 @@ export const createUser = async (req, res) => {
     email,
   })
 
-  // 500 Internal Server Error hvis noe går galt i servicen
+  // 500 Internal Server Error hvis noe går galt
   if (!createdUser?.success) {
     return res.status(500).json({
       success: false,
@@ -21,8 +21,9 @@ export const createUser = async (req, res) => {
     })
   }
 
+  // 201 Created om alt går bra
   return res.status(201).json({
     success: true,
-    error: createdUser.error,
+    data: createdUser.data,
   })
 }
