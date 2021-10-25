@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Feed {
+  id            String         @id @default(cuid())
+  name          String
+  url           String         @unique
+  // mange til en => setter opp relasjonen
+	// feed "eier" relasjonen
+  author        User          @relation(fields: [authorId], references: [id])
+  // kobler authorId til id
+  authorId      String
+}
+
+model User {
+  id           String         @id @default(cuid())
+  auth0        String         @unique
+  nickname     String?
+  // en til mange => en bruker kan ha mange feeds
+  feeds        Feed[]
+}
