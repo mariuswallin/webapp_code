@@ -5,7 +5,7 @@ import axios from 'axios'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
-import { createUser } from '@/features/users/users.controller'
+import { create } from '@/features/users/users.service'
 import prisma from '@/lib/clients/db'
 
 const url = 'http://localhost:3000/api/users'
@@ -32,16 +32,19 @@ describe('User registration', () => {
         server.use(
           rest.post(url, async (req, res, ctx) => {
             try {
-              const d = await createUser(req, res)
+              const { email } = req.body
+              const data = await create({ email })
 
               console.log('DATA')
-              console.log(d)
+              console.log(data)
+
+              return res(ctx.status(201), ctx.json(data))
             } catch (error) {
               console.log('ERROR')
               console.log(error)
-            }
 
-            return res(ctx.status(201), ctx.json({ success: true }))
+              return res(ctx.status(400), ctx.json(error))
+            }
           })
         )
         try {
@@ -49,9 +52,10 @@ describe('User registration', () => {
         } catch (error) {
           response = error.response
         }
-        expect(response.status).toBe(400)
-        expect(response.data.error).toBe('Name must be filled out')
-        expect(response.data.success).toBe(false)
+        expect(response.status).toBe(201)
+        expect(response.data.error).toBe(undefined)
+        expect(response.data.data.email).toBe('test@test.no')
+        expect(response.data.success).toBe(true)
       })
     })
   })
