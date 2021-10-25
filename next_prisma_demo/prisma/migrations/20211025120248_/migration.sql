@@ -21,14 +21,14 @@ CREATE TABLE "feed_tags" (
 );
 
 -- CreateTable
-CREATE TABLE "feed_follow" (
+CREATE TABLE "feed_followers" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
     "feedId" TEXT NOT NULL,
 
     PRIMARY KEY ("userId", "feedId"),
-    CONSTRAINT "feed_follow_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "feed_follow_feedId_fkey" FOREIGN KEY ("feedId") REFERENCES "feeds" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "feed_followers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "feed_followers_feedId_fkey" FOREIGN KEY ("feedId") REFERENCES "feeds" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

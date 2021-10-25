@@ -18,3 +18,18 @@ export const ApiResponse = (res) => ({
     return res.status(500).json({ success: false, error })
   },
 })
+
+export const ErrorHandler = (res, error) => {
+  switch (error?.type) {
+    case 'conflict':
+      return ApiResponse(res).conflict(error)
+    case 'notFound':
+      return ApiResponse(res).notFound(error)
+    case 'serverError':
+      return ApiResponse(res).serverError(error)
+    default:
+      return res
+        .status(600)
+        .json({ success: false, error: 'Errortype not handled' })
+  }
+}
