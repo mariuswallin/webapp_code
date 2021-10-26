@@ -16,3 +16,11 @@ export const create = async ({ email }) => {
 
   return { success: true, data: createdUser.data }
 }
+
+export const list = async () => {
+  const users = await usersRepo.findMany()
+
+  if (users?.error) return { success: false, error: users.error }
+
+  return { success: true, data: users.data }
+}

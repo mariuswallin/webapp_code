@@ -5,6 +5,9 @@ export default async function handler(req, res) {
   const { method } = req
 
   switch (method?.toLowerCase()) {
+    case 'get':
+      await userController.listAllUsers(req, res)
+      break
     case 'post':
       await userController.createUser(req, res)
       break

@@ -26,3 +26,13 @@ export const exist = async ({ email }) => {
     return { success: false, error: 'Failed finding user' }
   }
 }
+
+export const findMany = async () => {
+  try {
+    const users = await prisma.user.findMany()
+
+    return { success: true, data: users }
+  } catch (error) {
+    return { success: false, error: 'Failed finding users' }
+  }
+}

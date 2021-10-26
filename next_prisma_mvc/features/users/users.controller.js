@@ -27,3 +27,19 @@ export const createUser = async (req, res) => {
     data: createdUser.data,
   })
 }
+
+export const listAllUsers = async (req, res) => {
+  const users = await usersService.list()
+
+  if (!users?.success) {
+    return res.status(500).json({
+      success: false,
+      error: users.error,
+    })
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: users.data,
+  })
+}

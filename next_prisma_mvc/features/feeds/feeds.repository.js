@@ -1,43 +1,33 @@
 /* eslint-disable no-param-reassign */
-import { Result } from '@/lib/api'
 import prisma from '@/lib/clients/db'
-import { validatedFilters } from '@/lib/repository/validateFilters'
-import { PrismaError } from '@/lib/types/errors'
 
-const validFeedFilters = ['url', 'name']
-
-export const findMany = async (query) => {
+export const findMany = async () => {
   try {
-    let feeds
+    const feeds = await prisma.feed.findMany()
 
-    const { hasValidFilters, filters } = validatedFilters(
-      validFeedFilters,
-      query
-    )
-
-    if (hasValidFilters) {
-      feeds = await prisma.feed.findMany({
-        where: {
-          ...filters,
-        },
-      })
-    } else {
-      feeds = await prisma.feed.findMany()
-    }
-
-    return Result.success(feeds)
+    return { success: true, data: feeds }
   } catch (error) {
-    return Result.failure(PrismaError.Read('feed', 'Failed finding feeds'))
+    return { success: false, error: 'Failed finding feeds' }
   }
 }
 
-export const create = async (data) => {
+export const create = async ({ url, name, userId }) => {
   try {
-    const feed = await prisma.feed.create({ data })
+    const feed = await prisma.feed.create({
+      data: {
+        url,
+        name,
+        author: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    })
 
-    return Result.success(feed)
+    return { success: true, data: feed }
   } catch (error) {
-    return Result.failure(PrismaError.Read('feed', 'Failed creating feed'))
+    return { success: false, error: 'Failed creating feed' }
   }
 }
 
@@ -49,72 +39,67 @@ export const exist = async (identifier) => {
       },
     })
 
-    return Result.success(feed)
+    return { success: true, data: feed }
   } catch (error) {
-    return Result.failure(
-      PrismaError.Read(
-        'feed',
-        `Error finding feed with identifier: ${identifier}`
-      )
-    )
+    return { success: false, error: 'Failed finding feeds' }
   }
 }
 
-export const findUnique = async (identifier) => {
-  try {
-    const feed = await prisma.feed.findUnique({
-      where: {
-        ...identifier,
-      },
-    })
+// export const findUnique = async (identifier) => {
+//   try {
+//     const feed = await prisma.feed.findUnique({
+//       where: {
+//         ...identifier,
+//       },
+//     })
 
-    return Result.success(feed)
-  } catch (error) {
-    return Result.failure(
-      PrismaError.Read(
-        'feed',
-        `Error finding feed with identifier: ${identifier}`
-      )
-    )
-  }
-}
+//     return Result.success(feed)
+//   } catch (error) {
+//     return Result.failure(
+//       PrismaError.Read(
+//         'feed',
+//         `Error finding feed with identifier: ${identifier}`
+//       )
+//     )
+//   }
+// }
 
-export const updateById = async (id, { name, url }) => {
-  try {
-    const feed = await prisma.feed.update({
-      where: { id },
-      data: { name, url },
-    })
+// export const updateById = async (id, { name, url }) => {
+//   try {
+//     const feed = await prisma.feed.update({
+//       where: { id },
+//       data: { name, url },
+//     })
 
-    return Result.success(feed)
-  } catch (error) {
-    return Result.failure(PrismaError.Update('feed', 'Failed updating feed'))
-  }
-}
+//     return Result.success(feed)
+//   } catch (error) {
+//     return Result.failure(PrismaError.Update('feed', 'Failed updating feed'))
+//   }
+// }
 
-export const removeById = async (id) => {
-  try {
-    const feed = await prisma.feed.delete({ where: { id } })
+// export const removeById = async (id) => {
+//   try {
+//     const feed = await prisma.feed.delete({ where: { id } })
 
-    return Result.success(feed)
-  } catch (error) {
-    return Result.failure(PrismaError.Delete('feed', 'Failed deleting feed'))
-  }
-}
+//     return Result.success(feed)
+//   } catch (error) {
+//     return Result.failure(PrismaError.Delete('feed', 'Failed deleting feed'))
+//   }
+// }
 
-export const findFollowers = async (id) => {
-  try {
-    const feed = await prisma.feed.findUnique({
-      where: { id },
-      include: {
-        followers: true,
-      },
-    })
+// export const findFollowers = async (id) => {
+//   try {
+//     const feed = await prisma.feed.findUnique({
+//       where: { id },
+//       include: {
+//         followers: true,
+//       },
+//     })
 
-    return Result.success(feed)
-  } catch (error) {
-    return Result.failure(
-      PrismaError.Read('feed', 'Failed finding followers of feed')
-    )
-  }
-}
+//     return Result.success(feed)
+//   } catch (error) {
+//     return Result.failure(
+//       PrismaError.Read('feed', 'Failed finding followers of feed')
+//     )
+//   }
+// }
