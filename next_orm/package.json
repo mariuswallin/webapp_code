@@ -1,0 +1,55 @@
+{
+  "name": "next_orm",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest --env=jsdom --watch",
+    "test:ci": "jest --ci",
+    "prisma:init": "prisma init",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:generate": "prisma generate",
+    "prisma:seed": "prisma db seed",
+    "prisma:push": "prisma db push",
+    "prisma:reset": "prisma migrate reset"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.3.0",
+    "@testing-library/jest-dom": "5.14.1",
+    "axios": "^0.24.0",
+    "next": "11.1.2",
+    "prop-types": "^15.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@babel/node": "^7.15.8",
+    "@testing-library/react": "12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "13.5.0",
+    "babel-jest": "27.3.1",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-next": "11.1.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-testing-library": "5.0.0",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "^27.3.1",
+    "jest-mock-extended": "^2.0.4",
+    "msw": "^0.35.0",
+    "next-page-tester": "^0.30.0",
+    "node-mocks-http": "^1.11.0",
+    "prettier": "^2.4.1",
+    "prisma": "^3.3.0",
+    "react-test-renderer": "17.0.2",
+    "sass": "^1.43.3"
+  },
+  "prisma": {
+    "seed": "babel-node prisma/seed.js"
+  }
+}

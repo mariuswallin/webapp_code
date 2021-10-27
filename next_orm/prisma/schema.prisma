@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// generator dbml {
+//   provider = "prisma-dbml-generator"
+// }
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  nickname String?
+  feeds Feed[]
+}
+
+model Feed {
+  id String @id @default(cuid())
+  name String
+  url String @unique
+  author User @relation(fields: [authorId], references: [id])
+  authorId String
+}
