@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Feed {
+  id        String       @id @default(cuid())
+  name      String
+  url       String       @unique
+  author    User?        @relation(fields: [authorId], references: [id])
+  authorId  String?
+  tags      FeedTag[]
+  followers FeedFollow[]
+
+  @@map("feeds")
+}
+
+model User {
+  id        String       @id @default(cuid())
+  email     String       @unique
+  nickname  String?
+  birthYear Int?
+  feeds     Feed[]
+  following FeedFollow[]
+
+  @@map("users")
+}
+
+model FeedTag {
+  id    String @id @default(cuid())
+  name  String @unique
+  feeds Feed[]
+
+  @@map("feed_tags")
+}
+
+model FeedFollow {
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  feed      Feed     @relation(fields: [feedId], references: [id])
+  feedId    String
+
+
+  @@id([userId, feedId])
+  @@map("feed_followers")
+}
