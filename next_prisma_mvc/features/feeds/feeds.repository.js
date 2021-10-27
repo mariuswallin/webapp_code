@@ -45,47 +45,42 @@ export const exist = async (identifier) => {
   }
 }
 
-// export const findUnique = async (identifier) => {
-//   try {
-//     const feed = await prisma.feed.findUnique({
-//       where: {
-//         ...identifier,
-//       },
-//     })
+export const findUnique = async (identifier) => {
+  try {
+    const feed = await prisma.feed.findUnique({
+      where: {
+        ...identifier,
+      },
+    })
 
-//     return Result.success(feed)
-//   } catch (error) {
-//     return Result.failure(
-//       PrismaError.Read(
-//         'feed',
-//         `Error finding feed with identifier: ${identifier}`
-//       )
-//     )
-//   }
-// }
+    return { success: true, data: feed }
+  } catch (error) {
+    return { success: false, error: 'Failed finding feed' }
+  }
+}
 
-// export const updateById = async (id, { name, url }) => {
-//   try {
-//     const feed = await prisma.feed.update({
-//       where: { id },
-//       data: { name, url },
-//     })
+export const updateById = async (id, { name, url }) => {
+  try {
+    const feed = await prisma.feed.update({
+      where: { id },
+      data: { name, url },
+    })
 
-//     return Result.success(feed)
-//   } catch (error) {
-//     return Result.failure(PrismaError.Update('feed', 'Failed updating feed'))
-//   }
-// }
+    return { success: true, data: feed }
+  } catch (error) {
+    return { success: false, error: 'Failed updating feed' }
+  }
+}
 
-// export const removeById = async (id) => {
-//   try {
-//     const feed = await prisma.feed.delete({ where: { id } })
+export const removeById = async (id) => {
+  try {
+    const feed = await prisma.feed.delete({ where: { id } })
 
-//     return Result.success(feed)
-//   } catch (error) {
-//     return Result.failure(PrismaError.Delete('feed', 'Failed deleting feed'))
-//   }
-// }
+    return { success: true, data: feed }
+  } catch (error) {
+    return { success: false, error: 'Failed deleting feed' }
+  }
+}
 
 // export const findFollowers = async (id) => {
 //   try {

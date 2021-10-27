@@ -14,91 +14,117 @@ export const create = async ({ url, name, email }) => {
 
   if (!feed.success) return { success: false, error: feed.error }
 
-  if (feed.data)
+  if (feed.data) {
     return {
       success: false,
       type: 'Feed.Duplicate',
       error: `Item with ${url} already exist`,
     }
+  }
+
+  // sjekker om bruker finnes for å sikre at vi
+  // kan lage en releasjon mellom user og feed
   const user = await usersRepo.exist({ email })
 
-  if (!user.success) return { success: false, error: user.error }
-  if (!user.data)
+  if (!user.success) {
+    return { success: false, error: user.error }
+  }
+
+  if (!user.data) {
     return {
       success: false,
       type: 'User.NotExist',
       error: `User with ${email} does not exist`,
     }
+  }
 
+  // sender nødvendig data for å lage en feed
   const createdFeed = await feedsRepo.create({
     url,
     name,
     userId: user.data.id,
   })
 
-  if (!createdFeed.success) return { success: false, error: createdFeed.error }
+  if (!createdFeed.success) {
+    return { success: false, error: createdFeed.error }
+  }
 
   return { success: true, data: createdFeed.data }
 }
 
-// export const getByUrl = async ({ url }) => {
-//   const { success, data: feed, error } = await feedsRepo.findUnique({ url })
+export const getByUrl = async ({ url }) => {
+  const feed = await feedsRepo.findUnique({ url })
 
-//   if (!success) return Result.failure(error)
-//   if (!feed) {
-//     return Result.failure(
-//       FeedErrorTypes.FeedNotExists(`Item with ${url} does not exist`)
-//     )
-//   }
+  if (!feed.success) return { success: false, error: feed.error }
+  if (!feed.data)
+    return {
+      success: false,
+      type: 'Feed.NotExist',
+      error: `Feed with ${url} does not exist`,
+    }
 
-//   return Result.success(feed)
-// }
+  return { success: true, data: feed.data }
+}
 
-// export const deleteByUrl = async ({ url }) => {
-//   const { success, data: feed, error } = await feedsRepo.exist({ url })
+export const putByUrl = async (url, data) => {
+  const feed = await feedsRepo.exist({ url })
 
-//   if (!success) return Result.failure(error)
+  if (!feed.success) {
+    return { success: false, error: feed.error }
+  }
 
-//   if (!feed) {
-//     return Result.failure(
-//       FeedErrorTypes.FeedNotExists(`Item with ${url} does not exist`)
-//     )
-//   }
+  if (!feed.data) {
+    return {
+      success: false,
+      type: 'Feed.NotExist',
+      error: `Feed with ${url} does not exist`,
+    }
+  }
 
-//   const removedFeed = await feedsRepo.removeById(feed.id)
+  // brukes til å sjekke vi prøver å endre url`en til en feed
+  // må da sjekke om den nye urlen finnes fra før
+  if (data?.url) {
+    const feedWithUpdateUrl = await feedsRepo.exist({ url: data.url })
 
-//   if (!removedFeed.success) return Result.failure(removedFeed.error)
+    if (feedWithUpdateUrl?.data) {
+      return {
+        success: false,
+        type: 'Feed.Duplicate',
+        error: `Item with ${data.url} already exist`,
+      }
+    }
+  }
 
-//   return Result.success(removedFeed)
-// }
+  const updatedFeed = await feedsRepo.updateById(feed.data.id, data)
 
-// export const putByUrl = async (url, data) => {
-//   const { success, data: feed, error } = await feedsRepo.exist({ url })
+  if (!updatedFeed.success) {
+    return { success: false, error: updatedFeed.error }
+  }
 
-//   if (!success) return Result.failure(error)
+  return { success: true, data: updatedFeed.data }
+}
 
-//   if (!feed) {
-//     return Result.failure(
-//       FeedErrorTypes.FeedExists(`Item with ${url} does not exist`)
-//     )
-//   }
+export const deleteByUrl = async ({ url }) => {
+  const feed = await feedsRepo.exist({ url })
 
-//   if (data?.url) {
-//     const feedUpdatedUrl = await feedsRepo.exist({ url: data.url })
+  if (!feed.success) {
+    return { success: false, error: feed.error }
+  }
 
-//     if (feedUpdatedUrl?.data) {
-//       return Result.failure(
-//         FeedErrorTypes.FeedExists(`Item with ${data.url} already exist`)
-//       )
-//     }
-//   }
+  if (!feed.data) {
+    return {
+      success: false,
+      type: 'Feed.NotExist',
+      error: `Feed with ${url} does not exist`,
+    }
+  }
 
-//   const updatedFeed = await feedsRepo.updateById(feed.id, data)
+  const removedFeed = await feedsRepo.removeById(feed.data.id)
 
-//   if (!updatedFeed.success) return Result.failure(updatedFeed.error)
+  if (!removedFeed.success) return { success: false, error: removedFeed.error }
 
-//   return Result.success(updatedFeed)
-// }
+  return { success: true, data: removedFeed.data }
+}
 
 // export const getFeedFollowers = async (url) => {
 //   const { success, data: feed, error } = await feedsRepo.exist({ url })

@@ -1,15 +1,17 @@
 import * as feedsService from './feeds.service'
 
+// GET
+// /api/feeds
 export const listFeeds = async (req, res) => {
-  const { query } = req
-
-  const feeds = await feedsService.list(query)
+  const feeds = await feedsService.list()
 
   if (feeds.error) return res.status(500).json(feeds.error)
 
   return res.status(200).json(feeds)
 }
 
+// POST
+// /api/feeds
 export const createFeed = async (req, res) => {
   // TODO: Validate fields => Happy path
   const { name, url, email } = req.body
@@ -26,6 +28,8 @@ export const createFeed = async (req, res) => {
     email,
   })
 
+  // Sjekker hva slags feil servicen gir
+  // Dette for å sikre rett statuskode
   if (!createdFeed.success) {
     switch (createdFeed?.type) {
       case 'Feed.Duplicate':
@@ -46,55 +50,115 @@ export const createFeed = async (req, res) => {
     }
   }
 
-  return res.status(200).json(createdFeed)
+  return res.status(201).json(createdFeed)
 }
 
-// export const getFeedByUrl = async (req, res) => {
-//   const { url } = req.query
+// GET
+// /api/feeds/{url}
+// /api/feeds/www.myurl.com
+export const getFeedByUrl = async (req, res) => {
+  const { url } = req.query
 
-//   if (!url) return ApiResponse(res).badRequest('Missing required field url')
+  if (!url)
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required fields: url',
+    })
 
-//   const feed = await feedsService.getByUrl({
-//     url,
-//   })
+  const feed = await feedsService.getByUrl({
+    url,
+  })
 
-//   if (!feed?.success) {
-//     return ErrorHandler(res, feed.error)
-//   }
+  if (!feed?.success) {
+    switch (feed?.type) {
+      case 'Feed.NotExist':
+        return res.status(404).json({
+          success: false,
+          error: feed.error,
+        })
+      default:
+        return res.status(500).json({
+          success: false,
+          error: feed.error,
+        })
+    }
+  }
 
-//   return ApiResponse(res).created(feed.data)
-// }
+  return res.status(200).json(feed)
+}
 
-// export const updateFeedbyUrl = async (req, res) => {
-//   const { url } = req.query
-//   const data = req.body
+// PUT
+// /api/feeds/{url}
+// /api/feeds/www.myurl.com
+// BODY: {name: ..., url: ...}
+export const updateFeedbyUrl = async (req, res) => {
+  const { url } = req.query
+  const data = req.body
 
-//   if (!url) return ApiResponse(res).badRequest('Missing required field url')
+  if (!url)
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required fields: name, url or email',
+    })
 
-//   const feed = await feedsService.putByUrl(url, data)
+  const feed = await feedsService.putByUrl(url, data)
 
-//   if (feed?.error) {
-//     return ErrorHandler(res, feed.error)
-//   }
+  if (!feed?.success) {
+    switch (feed?.type) {
+      case 'Feed.NotExist':
+        return res.status(404).json({
+          success: false,
+          error: feed.error,
+        })
+      case 'Feed.Duplicate':
+        return res.status(409).json({
+          success: false,
+          error: feed.error,
+        })
+      default:
+        return res.status(500).json({
+          success: false,
+          error: feed.error,
+        })
+    }
+  }
 
-//   return ApiResponse(res).ok(feed.data)
-// }
+  return res.status(200).json(feed)
+}
 
-// export const removeFeedbyUrl = async (req, res) => {
-//   const { url } = req.query
+// DELETE
+// /api/feeds/{url}
+// /api/feeds/www.myurl.com
+export const removeFeedbyUrl = async (req, res) => {
+  const { url } = req.query
 
-//   if (!url) return ApiResponse(res).badRequest('Missing required field url')
+  if (!url)
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required fields: name, url or email',
+    })
 
-//   const removedFeed = await feedsService.deleteByUrl({
-//     url,
-//   })
+  const removedFeed = await feedsService.deleteByUrl({
+    url,
+  })
 
-//   if (!removedFeed.success) {
-//     return ErrorHandler(res, removedFeed.error)
-//   }
+  if (!removedFeed?.success) {
+    switch (removedFeed?.type) {
+      case 'Feed.NotExist':
+        return res.status(404).json({
+          success: false,
+          error: removedFeed.error,
+        })
+      default:
+        return res.status(500).json({
+          success: false,
+          error: removedFeed.error,
+        })
+    }
+  }
 
-//   return ApiResponse(res).ok(removedFeed.data)
-// }
+  return res.status(204).end()
+}
 
 // export const listFeedFollowers = async (req, res) => {
 //   const { url } = req.query
