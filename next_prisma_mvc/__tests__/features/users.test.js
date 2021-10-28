@@ -12,17 +12,20 @@ const url = 'http://localhost:3000/api/users'
 
 describe('User registration', () => {
   beforeEach(async () => {
+    await prisma.feed.deleteMany({})
+    await prisma.feedFollow.deleteMany({})
     await prisma.user.deleteMany({})
   })
 
   describe('Creating user', () => {
-    describe('when passed user email', () => {
+    describe('when passed user email and nickname', () => {
       it('should respond with status 201 Created', async () => {
         const request = httpMocks.createRequest({
           method: 'POST',
           url,
           body: {
             email: 'test@test.no',
+            nickname: 'Nickname',
           },
         })
 
@@ -38,6 +41,7 @@ describe('User registration', () => {
           url,
           body: {
             email: 'test@test.no',
+            nickname: 'Nickname',
           },
         })
 
@@ -49,7 +53,7 @@ describe('User registration', () => {
 
         expect(resultAsJson.success).toBe(true)
         expect(resultAsJson.data.email).toBe('test@test.no')
-        expect(resultAsJson.data.nickname).toBeNull()
+        expect(resultAsJson.data.nickname).toBe('Nickname')
       })
       it('should have added user to database', async () => {
         const userOne = httpMocks.createRequest({
@@ -57,6 +61,7 @@ describe('User registration', () => {
           url,
           body: {
             email: 'test@test.no',
+            nickname: 'Nickname',
           },
         })
 
@@ -65,6 +70,7 @@ describe('User registration', () => {
           url,
           body: {
             email: 'test2@test.no',
+            nickname: 'Test',
           },
         })
 
@@ -105,7 +111,9 @@ describe('User registration', () => {
         const resultAsJson = result._getJSONData()
 
         expect(resultAsJson.success).toBe(false)
-        expect(resultAsJson.error).toBe('Missing required field: email')
+        expect(resultAsJson.error).toBe(
+          'Missing required field: email or nickname'
+        )
       })
     })
     describe('when same email is provided', () => {
@@ -115,6 +123,7 @@ describe('User registration', () => {
           url,
           body: {
             email: 'test@test.no',
+            nickname: 'Nickname',
           },
         })
 
@@ -123,6 +132,7 @@ describe('User registration', () => {
           url,
           body: {
             email: 'test@test.no',
+            nickname: 'Nickname 2',
           },
         })
 

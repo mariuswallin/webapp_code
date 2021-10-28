@@ -1,16 +1,19 @@
 import * as usersService from './users.service'
+import { validate } from '@/lib/validation'
 
 export const createUser = async (req, res) => {
-  const { email } = req.body
+  const { email, nickname } = req.body
 
-  // 400 Bad Request hvis email mangler
-  if (!email)
-    return res
-      .status(400)
-      .json({ success: false, error: 'Missing required field: email' })
+  // 400 Bad Request hvis validering
+  if (!validate.minLength(3, nickname) || !validate.isEmail(email))
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required field: email or nickname',
+    })
 
   const createdUser = await usersService.create({
     email,
+    nickname,
   })
 
   // 500 Internal Server Error hvis noe går galt
