@@ -84,7 +84,7 @@ describe('User registration', () => {
         expect(users.length).toBe(2)
       })
     })
-    describe('when no user email is provided', () => {
+    describe('when no email is provided', () => {
       it('should respond with status 400 Bad Request', async () => {
         const request = httpMocks.createRequest({
           method: 'POST',
@@ -117,7 +117,7 @@ describe('User registration', () => {
       })
     })
     describe('when same email is provided', () => {
-      it('should respond with status 500', async () => {
+      it('should respond with status 409 and error message', async () => {
         const userOne = httpMocks.createRequest({
           method: 'POST',
           url,
@@ -149,8 +149,11 @@ describe('User registration', () => {
 
         expect(resultAsJsonOne.success).toBe(true)
         expect(resultAsJsonTwo.success).toBe(false)
+        expect(resultAsJsonTwo.error).toBe(
+          'User with test@test.no already exist'
+        )
         expect(resultOne.statusCode).toBe(201)
-        expect(resultTwo.statusCode).toBe(500)
+        expect(resultTwo.statusCode).toBe(409)
         expect(users.length).toBe(1)
       })
     })

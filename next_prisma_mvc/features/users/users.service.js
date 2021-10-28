@@ -1,42 +1,52 @@
+import { UserErrors } from './user.errors'
 import * as usersRepo from './users.repository'
+import { Result } from '@/lib/api/result'
 
 export const create = async ({ email, nickname }) => {
   const user = await usersRepo.exist({ email })
 
   // feil med hentingen av data fra databasen via ORM
-  if (user?.error) return { success: false, error: user.error }
+  if (!user?.success) {
+    Result.failure(user.error)
+  }
 
   // bruker finnes hvis data har verdi
-  if (user.data) return { success: false, error: 'User already exist' }
+  if (user.data) {
+    return Result.failure(UserErrors.exist(email))
+  }
 
   const createdUser = await usersRepo.create({ email, nickname })
 
   // feil ved lagring av bruker via ORM
-  if (!createdUser.success) return { success: false, error: createdUser.error }
+  if (!createdUser.success) {
+    return Result.failure(createdUser.error)
+  }
 
-  return { success: true, data: createdUser.data }
+  return Result.success(createdUser.data)
 }
 
 export const list = async () => {
   const users = await usersRepo.findMany()
 
-  if (users?.error) return { success: false, error: users.error }
+  if (users?.success) {
+    Result.failure(users.error)
+  }
 
-  return { success: true, data: users.data }
+  return Result.success(users.data)
 }
 
 export const getUserFeeds = async ({ email }) => {
   const user = await usersRepo.exist({ email })
 
   // feil med hentingen av data fra databasen via ORM
-  if (user?.error) return { success: false, error: user.error }
+  if (user?.success) return { success: false, error: user.error }
 
   // bruker finnes hvis data har verdi
   if (!user.data) return { success: false, error: 'User does not exist' }
 
   const userWithFeeds = await usersRepo.findFeeds({ email })
 
-  if (userWithFeeds?.error)
+  if (!userWithFeeds?.success)
     return { success: false, error: userWithFeeds.error }
 
   return { success: true, data: userWithFeeds.data }

@@ -1,3 +1,5 @@
+import { PrismaErrors } from '@/lib/api/errors'
+import { Result } from '@/lib/api/result'
 import prisma from '@/lib/clients/db'
 
 export const create = async (data) => {
@@ -7,9 +9,9 @@ export const create = async (data) => {
     // .create er metoden vi bruker for å lage noe
     const user = await prisma.user.create({ data })
 
-    return { success: true, data: user }
+    return Result.success(user)
   } catch (error) {
-    return { success: false, error: 'Failed creating user' }
+    return Result.failure(PrismaErrors.create('user', undefined, error))
   }
 }
 
@@ -21,9 +23,9 @@ export const exist = async ({ email }) => {
       },
     })
 
-    return { success: true, data: user }
+    return Result.success(user)
   } catch (error) {
-    return { success: false, error: 'Failed finding user' }
+    return Result.failure(PrismaErrors.read('user', undefined, error))
   }
 }
 
@@ -31,9 +33,9 @@ export const findMany = async () => {
   try {
     const users = await prisma.user.findMany()
 
-    return { success: true, data: users }
+    return Result.success(users)
   } catch (error) {
-    return { success: false, error: 'Failed finding users' }
+    return Result.failure(PrismaErrors.read('user', undefined, error))
   }
 }
 
