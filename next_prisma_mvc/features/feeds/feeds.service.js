@@ -125,20 +125,3 @@ export const deleteByUrl = async ({ url }) => {
 
   return { success: true, data: removedFeed.data }
 }
-
-// export const getFeedFollowers = async (url) => {
-//   const { success, data: feed, error } = await feedsRepo.exist({ url })
-
-//   if (!success) return Result.failure(error)
-
-//   if (!feed) {
-//     return Result.failure(
-//       FeedErrorTypes.FeedNotExists(`Feed with ${url} does not exist`)
-//     )
-//   }
-//   const followers = await feedsRepo.findFollowers(feed.id)
-
-//   if (!followers.success) return Result.failure(followers.error)
-
-//   return Result.success(followers)
-// }

@@ -159,13 +159,3 @@ export const removeFeedbyUrl = async (req, res) => {
 
   return res.status(204).end()
 }
-
-// export const listFeedFollowers = async (req, res) => {
-//   const { url } = req.query
-
-//   const followers = await feedsService.getFeedFollowers(url)
-
-//   if (!followers.success) return ErrorHandler(res, followers.error)
-
-//   return ApiResponse(res).ok(followers.data)
-// }

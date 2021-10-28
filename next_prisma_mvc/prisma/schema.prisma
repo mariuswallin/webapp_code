@@ -15,10 +15,12 @@ model Feed {
   name          String
   url           String         @unique
   // mange til en => setter opp relasjonen
-	// feed "eier" relasjonen
+  // feed "eier" relasjonen
   author        User          @relation(fields: [authorId], references: [id])
   // kobler authorId til id
   authorId      String
+  tags          FeedTag[]
+  followers     FeedFollow[]
 }
 
 model User {
@@ -27,4 +29,23 @@ model User {
   nickname     String?
   // en til mange => en bruker kan ha mange feeds
   feeds        Feed[]
+  follows      FeedFollow[]
+}
+
+model FeedTag {
+  id    String @id
+  name  String @unique
+  feeds Feed[]
+}
+
+model FeedFollow {
+  createdAt    DateTime @default(now())
+  // mange til mange med User
+  user User    @relation(fields: [userId], references: [id])
+  userId       String
+  // mange til mange med Feed
+  feed Feed    @relation(fields: [feedId], references: [id])
+  feedId   String
+
+  @@id([userId, feedId])
 }
