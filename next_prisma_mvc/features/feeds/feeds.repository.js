@@ -81,20 +81,3 @@ export const removeById = async (id) => {
     return { success: false, error: 'Failed deleting feed' }
   }
 }
-
-// export const findFollowers = async (id) => {
-//   try {
-//     const feed = await prisma.feed.findUnique({
-//       where: { id },
-//       include: {
-//         followers: true,
-//       },
-//     })
-
-//     return Result.success(feed)
-//   } catch (error) {
-//     return Result.failure(
-//       PrismaError.Read('feed', 'Failed finding followers of feed')
-//     )
-//   }
-// }

@@ -47,6 +47,7 @@ export const create = async ({ email, url }) => {
       error: `User with ${email} already follows feed with ${url}`,
     }
   }
+
   const createdFollowing = await feedFollowRepo.create({
     userId: user.data.id,
     feedId: feed.data.id,

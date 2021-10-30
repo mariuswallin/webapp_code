@@ -1,4 +1,4 @@
-import { UserErrors } from './user.errors'
+import { UserErrors } from './users.errors'
 import * as usersRepo from './users.repository'
 import { Result } from '@/lib/api/result'
 
