@@ -9,15 +9,11 @@ export const createUserDto = ({ name, username, birthYear, password }) => {
   }
 }
 
-export const putUserDto = ({ id, name }) => {
+export const userCreatedDto = ({ id, name, username, birthYear }) => {
   return {
     id,
     name,
-  }
-}
-
-export const deleteUserDto = ({ id }) => {
-  return {
-    id,
+    username,
+    age: new Date().getFullYear() - birthYear,
   }
 }
